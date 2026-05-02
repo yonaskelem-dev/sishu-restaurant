@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Sishu Restaurant — Addis Ababa</title>
+<link rel="stylesheet" href="style.css" />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="navbar">
+  <div class="logo">Sishu <span>Restaurant</span></div>
+  <ul class="nav-links">
+    <li><a href="#home">Home</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#menu">Menu</a></li>
+    <li><a href="#gallery">Gallery</a></li>
+    <li><a href="#reviews">Reviews</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <button class="nav-reserve" onclick="document.getElementById('reservation').scrollIntoView({behavior:'smooth'})">Reserve a Table</button>
+  <button id="hamburger" onclick="toggleMobile()">☰</button>
+</nav>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#home" onclick="closeMobile()">Home</a>
+  <a href="#about" onclick="closeMobile()">About</a>
+  <a href="#menu" onclick="closeMobile()">Menu</a>
+  <a href="#gallery" onclick="closeMobile()">Gallery</a>
+  <a href="#reviews" onclick="closeMobile()">Reviews</a>
+  <a href="#reservation" onclick="closeMobile()">Reserve</a>
+  <a href="#contact" onclick="closeMobile()">Contact</a>
+</div>
+
+<!-- HERO -->
+<section id="home">
+  <div class="hero-bg"></div>
+  <div class="hero-content">
+    <p class="hero-eyebrow">Est. 2018 · Addis Ababa, Ethiopia</p>
+    <h1 class="hero-title">Sishu<br><em>Restaurant</em></h1>
+    <p class="hero-sub">Where ancient Ethiopian flavors meet the warmth of modern hospitality</p>
+    <div class="hero-cta">
+      <a href="#menu" class="btn-primary">Explore the Menu</a>
+      <a href="#reservation" class="btn-outline">Book a Table</a>
+    </div>
+  </div>
+  <div class="hero-scroll">
+    <div class="scroll-line"></div>
+    <span>Scroll</span>
+  </div>
+  <div class="hero-stripe">
+    <span></span><span></span><span></span>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<div id="about">
+  <div class="about-grid">
+    <div class="about-text reveal">
+      <p class="eyebrow">Our Story</p>
+      <h2 class="section-title">A Legacy of<br><em>Ethiopian Taste</em></h2>
+      <div class="eth-divider"><span></span><span></span><span></span></div>
+      <p>Born from a deep love of Ethiopian culinary tradition, Sishu is more than a restaurant — it is a living memory of flavors passed down through generations. Every dish we serve carries a story: of grandmothers and spice markets, of communal injera tables and the warmth of family.</p>
+      <p>Our chefs travel to Gondar, Tigray, and the Omo Valley to source the finest berbere, niter kibbeh, and freshly stone-milled teff — bringing the true soul of Ethiopian cuisine to every plate.</p>
+      <div class="about-stat-row">
+        <div class="stat">
+          <div class="stat-num">6+</div>
+          <div class="stat-label">Years Serving</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">40+</div>
+          <div class="stat-label">Dishes</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">4.9</div>
+          <div class="stat-label">Average Rating</div>
+        </div>
+      </div>
+    </div>
+    <div class="about-image-wrap reveal">
+      <img src="interior1.jpg" alt="Sishu Restaurant Interior" class="about-img"
+        onerror="this.style.background='linear-gradient(135deg,#4A2E14,#2A1A0A)';this.style.height='520px';this.removeAttribute('src')" />
+      <div class="about-img-accent"></div>
+      <div class="about-badge">"A taste of Ethiopia's soul on every plate"</div>
+    </div>
+  </div>
+</div>
+
+<!-- MENU -->
+<section id="menu" class="section-full">
+  <div class="menu-inner">
+    <div class="reveal">
+      <p class="eyebrow menu-eyebrow">Our Kitchen</p>
+      <h2 class="section-title menu-title">Curated <em>Dishes</em></h2>
+      <div class="eth-divider"><span></span><span></span><span></span></div>
+    </div>
+
+    <div class="menu-tabs">
+      <button class="tab active" onclick="showTab('mains',this)">Main Dishes</button>
+      <button class="tab" onclick="showTab('veg',this)">Vegetarian</button>
+      <button class="tab" onclick="showTab('drinks',this)">Drinks</button>
+    </div>
+
+    <div class="menu-panel active" id="tab-mains">
+      <div class="menu-grid">
+        <div class="menu-card reveal">
+          <div class="menu-card-img-wrap">
+            <img src="doro_wat.jpg" alt="Doro Wat" class="menu-card-img"
+              onerror="this.style.background='linear-gradient(135deg,#6B4226,#2A1A0A)';this.removeAttribute('src')" />
+          </div>
+          <div class="menu-card-body">
+            <div class="menu-card-name">Doro Wat</div>
+            <div class="menu-card-desc">Slow-braised chicken in rich berbere sauce with hard-boiled egg, served on fresh injera</div>
+            <div class="menu-card-footer">
+              <div class="menu-card-price">280 ETB</div>
+              <div class="menu-card-tag">Signature</div>
+            </div>
+          </div>
+        </div>
+        <div class="menu-card reveal">
+          <div class="menu-card-img-wrap">
+            <img src="kitfo_image.jpg" alt="Kitfo" class="menu-card-img"
+              onerror="this.style.background='linear-gradient(135deg,#8B3A2A,#2A1A0A)';this.removeAttribute('src')" />
+          </div>
+          <div class="menu-card-body">
+            <div class="menu-card-name">Kitfo</div>
+            <div class="menu-card-desc">Finest minced beef seasoned with mitmita and niter kibbeh, served raw or lightly cooked</div>
+            <div class="menu-card-footer">
+              <div class="menu-card-price">320 ETB</div>
+              <div class="menu-card-tag">Chef's Pick</div>
+            </div>
+          </div>
+        </div>
+        <div class="menu-card reveal">
+          <div class="menu-card-img-wrap">
+            <img src="tibs.jpg" alt="Tibs" class="menu-card-img"
+              onerror="this.style.background='linear-gradient(135deg,#7A3B1A,#1A0E04)';this.removeAttribute('src')" />
+          </div>
+          <div class="menu-card-body">
+            <div class="menu-card-name">Tibs</div>
+            <div class="menu-card-desc">Pan-seared lamb cubes with rosemary, onions, and fresh jalapeño — the classic Ethiopian sauté</div>
+            <div class="menu-card-footer">
+              <div class="menu-card-price">300 ETB</div>
+              <div class="menu-card-tag">Popular</div>
+            </div>
+          </div>
+        </div>
+        <div class="menu-card reveal">
+          <div class="menu-card-img-wrap">
+            <img src="shiro.jpg" alt="Shiro" class="menu-card-img"
+              onerror="this.style.background='linear-gradient(135deg,#5A4010,#2A1A0A)';this.removeAttribute('src')" />
+          </div>
+          <div class="menu-card-body">
+            <div class="menu-card-name">Shiro Wat</div>
+            <div class="menu-card-desc">Thick roasted chickpea stew simmered with onions and awaze — Ethiopian comfort at its finest</div>
+            <div class="menu-card-footer">
+              <div class="menu-card-price">180 ETB</div>
+              <div class="menu-card-tag">Vegan-Friendly</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="menu-panel" id="tab-veg">
+      <div class="menu-grid">
+        <div class="menu-card">
+          <div class="menu-card-img-wrap">
+            <img src="injera.jpg" alt="Injera Combo" class="menu-card-img"
+              onerror="this.style.background='linear-gradient(135deg,#3A5A20,#1A2A0A)';this.removeAttribute('src')" />
+          </div>
+          <div class="menu-card-body">
+            <div class="menu-card-name">Beyaynetu</div>
+            <div class="menu-card-desc">A vibrant platter of eight vegetable dishes on injera — lentils, greens, beets, and more</div>
+            <div class="menu-card-footer">
+              <div class="menu-card-price">220 ETB</div>
+              <div class="menu-card-tag">Fasting Dish</div>
+            </div>
+          </div>
+        </div>
+        <div class="menu-card">
+          <div class="menu-card-img-wrap">
+            <div style="height:200px;background:linear-gradient(135deg,#1A4A2A,#0A1A0A)"></div>
+          </div>
+          <div class="menu-card-body">
+            <div class="menu-card-name">Gomen</div>
+            <div class="menu-card-desc">Ethiopian collard greens sautéed with garlic, ginger, and a hint of niter kibbeh spiced butter</div>
+            <div class="menu-card-footer">
+              <div class="menu-card-price">140 ETB</div>
+              <div class="menu-card-tag">Vegan</div>
+            </div>
+          </div>
+        </div>
+        <div class="menu-card">
+          <div class="menu-card-img-wrap">
+            <div style="height:200px;background:linear-gradient(135deg,#5A3A10,#2A1A0A)"></div>
+          </div>
+          <div class="menu-card-body">
+            <div class="menu-card-name">Misir Wat</div>
+            <div class="menu-card-desc">Spiced red lentils slow-cooked in berbere sauce — wholesome, hearty, and deeply satisfying</div>
+            <div class="menu-card-footer">
+              <div class="menu-card-price">160 ETB</div>
+              <div class="menu-card-tag">Vegan</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="menu-panel" id="tab-drinks">
+      <div class="menu-grid">
+        <div class="menu-card">
+          <div class="menu-card-img-wrap">
+            <img src="coffee.jpg" alt="Ethiopian Coffee" class="menu-card-img"
+              onerror="this.style.background='linear-gradient(135deg,#3A2210,#1A0E04)';this.removeAttribute('src')" />
+          </div>
+          <div class="menu-card-body">
+            <div class="menu-card-name">Bunna Ceremony</div>
+            <div class="menu-card-desc">Traditional three-round Ethiopian coffee ceremony with popcorn and incense — a spiritual experience</div>
+            <div class="menu-card-footer">
+              <div class="menu-card-price">120 ETB</div>
+              <div class="menu-card-tag">Ceremonial</div>
+            </div>
+          </div>
+        </div>
+        <div class="menu-card">
+          <div class="menu-card-img-wrap">
+            <div style="height:200px;background:linear-gradient(135deg,#4A1A1A,#1A0A0A)"></div>
+          </div>
+          <div class="menu-card-body">
+            <div class="menu-card-name">Tej</div>
+            <div class="menu-card-desc">Ethiopian honey wine — a centuries-old mead brewed with gesho buckthorn leaves, served chilled</div>
+            <div class="menu-card-footer">
+              <div class="menu-card-price">90 ETB</div>
+              <div class="menu-card-tag">Traditional</div>
+            </div>
+          </div>
+        </div>
+        <div class="menu-card">
+          <div class="menu-card-img-wrap">
+            <div style="height:200px;background:linear-gradient(135deg,#1A3A4A,#0A1A2A)"></div>
+          </div>
+          <div class="menu-card-body">
+            <div class="menu-card-name">Ambo Water</div>
+            <div class="menu-card-desc">Mineral water from the natural springs of Ambo, chilled and served with lemon and mint</div>
+            <div class="menu-card-footer">
+              <div class="menu-card-price">40 ETB</div>
+              <div class="menu-card-tag">Refreshing</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section id="gallery" class="section-full">
+  <div class="gallery-inner">
+    <div class="reveal" style="text-align:center">
+      <p class="eyebrow">Our Space</p>
+      <h2 class="section-title">A Glimpse of <em>Sishu</em></h2>
+      <div class="eth-divider" style="margin: 20px auto 0;"><span></span><span></span><span></span></div>
+    </div>
+    <div class="gallery-mosaic">
+      <div class="gallery-item reveal">
+        <img src="restaurant.jpg" alt="Sishu Interior" class="gallery-img"
+          onerror="this.style.background='linear-gradient(135deg,#4A2E14,#2A1A0A)';this.removeAttribute('src')" />
+        <div class="gallery-overlay"><div class="gallery-plus">+</div></div>
+      </div>
+      <div class="gallery-item reveal">
+        <img src="interior2.jpg" alt="Dining Area" class="gallery-img"
+          onerror="this.style.background='linear-gradient(135deg,#3A2010,#1A1008)';this.removeAttribute('src')" />
+        <div class="gallery-overlay"><div class="gallery-plus">+</div></div>
+      </div>
+      <div class="gallery-item reveal">
+        <img src="chef_image.jpg" alt="Our Chef" class="gallery-img"
+          onerror="this.style.background='linear-gradient(135deg,#5A3014,#2A1A0A)';this.removeAttribute('src')" />
+        <div class="gallery-overlay"><div class="gallery-plus">+</div></div>
+      </div>
+      <div class="gallery-item reveal">
+        <img src="event.jpg" alt="Private Events" class="gallery-img"
+          onerror="this.style.background='linear-gradient(135deg,#2A2A1A,#1A1A0A)';this.removeAttribute('src')" />
+        <div class="gallery-overlay"><div class="gallery-plus">+</div></div>
+      </div>
+      <div class="gallery-item reveal">
+        <img src="interior1.jpg" alt="Ambiance" class="gallery-img"
+          onerror="this.style.background='linear-gradient(135deg,#3A2A10,#1A0E04)';this.removeAttribute('src')" />
+        <div class="gallery-overlay"><div class="gallery-plus">+</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- REVIEWS -->
+<section id="reviews" class="section">
+  <div class="reviews-header reveal">
+    <p class="eyebrow">Guest Voices</p>
+    <h2 class="section-title">What Our Guests <em>Say</em></h2>
+    <div class="eth-divider" style="margin: 20px auto 0;"><span></span><span></span><span></span></div>
+  </div>
+  <div class="reviews-grid">
+    <div class="review-card reveal">
+      <div class="review-stars"><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div></div>
+      <div class="review-quote-mark">"</div>
+      <p class="review-text">"The Doro Wat here is the finest I have ever tasted outside my own family's kitchen. The berbere is complex, rich, deeply warming — and the injera was perfectly fermented."</p>
+      <div class="review-author">
+        <div class="author-avatar">AH</div>
+        <div>
+          <div class="author-name">Amara Haile</div>
+          <div class="author-source">Google Reviews</div>
+        </div>
+      </div>
+    </div>
+    <div class="review-card reveal">
+      <div class="review-stars"><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div></div>
+      <div class="review-quote-mark">"</div>
+      <p class="review-text">"I visited Sishu during my trip to Addis and it completely changed how I understand Ethiopian food. The ceremony coffee alone is worth the journey. Absolutely unforgettable."</p>
+      <div class="review-author">
+        <div class="author-avatar">LM</div>
+        <div>
+          <div class="author-name">Lena Müller</div>
+          <div class="author-source">TripAdvisor</div>
+        </div>
+      </div>
+    </div>
+    <div class="review-card reveal">
+      <div class="review-stars"><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div></div>
+      <div class="review-quote-mark">"</div>
+      <p class="review-text">"The atmosphere, the service, and above all the kitfo — perfection. We hosted our team dinner here and every single colleague left in awe. This place is a true gem of Addis."</p>
+      <div class="review-author">
+        <div class="author-avatar">DT</div>
+        <div>
+          <div class="author-name">Daniel Tesfaye</div>
+          <div class="author-source">Yelp</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RESERVATION -->
+<section id="reservation" class="section-full">
+  <div class="res-inner">
+    <div class="res-left reveal">
+      <p class="eyebrow">Reserve Your Seat</p>
+      <h2 class="section-title" style="color:#fff;">Book a Table<br><em>Tonight</em></h2>
+      <div class="eth-divider"><span></span><span></span><span></span></div>
+      <div class="res-info">
+        <div class="res-info-item">
+          <div class="res-info-icon">⏰</div>
+          <div>
+            <div class="res-info-label">Hours</div>
+            <div class="res-info-text">Mon–Thu: 11:00 AM – 10:00 PM<br>Fri–Sat: 11:00 AM – 11:00 PM<br>Sun: 12:00 PM – 9:00 PM</div>
+          </div>
+        </div>
+        <div class="res-info-item">
+          <div class="res-info-icon">📍</div>
+          <div>
+            <div class="res-info-label">Location</div>
+            <div class="res-info-text">Bole Road, Addis Ababa, Ethiopia<br>Near Edna Mall, 2nd Floor</div>
+          </div>
+        </div>
+        <div class="res-info-item">
+          <div class="res-info-icon">📞</div>
+          <div>
+            <div class="res-info-label">Phone</div>
+            <div class="res-info-text">+251 911 234 567<br>+251 115 678 900</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="reveal">
+      <form class="res-form" id="reservationForm" onsubmit="submitReservation(event)">
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Full Name</label>
+            <input class="form-input" type="text" placeholder="Your name" id="res-name" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Phone Number</label>
+            <input class="form-input" type="tel" placeholder="+251 ..." id="res-phone" required />
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Date</label>
+            <input class="form-input" type="date" id="res-date" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Time</label>
+            <input class="form-input" type="time" id="res-time" required />
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Number of Guests</label>
+            <select class="form-input" id="res-guests">
+              <option value="1">1 Guest</option>
+              <option value="2" selected>2 Guests</option>
+              <option value="3">3 Guests</option>
+              <option value="4">4 Guests</option>
+              <option value="5">5 Guests</option>
+              <option value="6+">6+ Guests</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Occasion</label>
+            <select class="form-input" id="res-occasion">
+              <option value="">Select...</option>
+              <option value="birthday">Birthday</option>
+              <option value="anniversary">Anniversary</option>
+              <option value="business">Business Dinner</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Special Requests</label>
+          <input class="form-input" type="text" placeholder="Dietary needs, seating preferences..." id="res-notes" />
+        </div>
+        <button type="submit" class="form-submit">Confirm Reservation →</button>
+        <div class="form-success" id="res-success">
+          ✓ Your reservation has been received! We'll confirm via phone within 2 hours. We look forward to welcoming you.
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" class="section">
+  <div class="reveal" style="text-align:center">
+    <p class="eyebrow">Find Us</p>
+    <h2 class="section-title">Visit <em>Sishu</em></h2>
+    <div class="eth-divider" style="margin:20px auto 0"><span></span><span></span><span></span></div>
+  </div>
+  <div class="contact-grid reveal">
+    <div class="contact-col">
+      <div class="contact-col-title">Address</div>
+      <div class="contact-col-body">
+        <strong>Sishu Restaurant</strong>
+        Bole Road, 2nd Floor<br>
+        Near Edna Mall<br>
+        Addis Ababa, Ethiopia
+      </div>
+    </div>
+    <div class="contact-col">
+      <div class="contact-col-title">Contact</div>
+      <div class="contact-col-body">
+        <strong>Reservations & Inquiries</strong>
+        +251 911 234 567<br>
+        +251 115 678 900<br>
+        hello@sishurestaurant.com
+      </div>
+    </div>
+    <div class="contact-col">
+      <div class="contact-col-title">Private Events</div>
+      <div class="contact-col-body">
+        <strong>Book Our Spaces</strong>
+        We host private dinners, corporate events, and cultural celebrations.<br>
+        Capacity up to 120 guests.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">Sishu</div>
+  <div class="footer-links">
+    <a href="#home">Home</a>
+    <a href="#menu">Menu</a>
+    <a href="#gallery">Gallery</a>
+    <a href="#reservation">Reserve</a>
+    <a href="#contact">Contact</a>
+  </div>
+  <div class="footer-copy">© 2025 Sishu Restaurant, Addis Ababa · All rights reserved · Crafted with love for Ethiopian heritage</div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
