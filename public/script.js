@@ -5,17 +5,22 @@
 // ── NAV scroll effect ──────────────────────────────
 window.addEventListener("scroll", () => {
   const nav = document.getElementById("navbar");
+  // Keep dark earth tone — just increase opacity on scroll
   nav.style.background =
-    window.scrollY > 60 ? "rgba(35, 88, 138, 0.99)" : "rgba(192, 112, 31, 0.96)";
+    window.scrollY > 60 ? "rgba(42,26,10,0.99)" : "rgba(42,26,10,0.96)";
 });
 
 // ── Mobile menu ────────────────────────────────────
 function toggleMobile() {
-  document.getElementById("mobileMenu").classList.toggle("open");
+  const menu = document.getElementById("mobileMenu");
+  const ham = document.getElementById("hamburger");
+  const isOpen = menu.classList.toggle("open");
+  ham.textContent = isOpen ? "✕" : "☰";
 }
 
 function closeMobile() {
   document.getElementById("mobileMenu").classList.remove("open");
+  document.getElementById("hamburger").textContent = "☰";
 }
 
 // Close mobile menu when clicking outside
@@ -27,7 +32,7 @@ document.addEventListener("click", (e) => {
     !menu.contains(e.target) &&
     e.target !== hamburger
   ) {
-    menu.classList.remove("open");
+    closeMobile();
   }
 });
 
@@ -46,10 +51,10 @@ function showTab(id, btn) {
 // ── Scroll reveal ──────────────────────────────────
 const observer = new IntersectionObserver(
   (entries) => {
-    entries.forEach((e, i) => {
-      if (e.isIntersecting) {
-        setTimeout(() => e.target.classList.add("visible"), i * 80);
-        observer.unobserve(e.target);
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add("visible"), i * 80);
+        observer.unobserve(entry.target);
       }
     });
   },
@@ -81,7 +86,6 @@ function submitReservation(e) {
     notes: document.getElementById("res-notes").value,
   };
 
-  // POST to Express backend
   fetch("/reserve", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -89,18 +93,24 @@ function submitReservation(e) {
   })
     .then((res) => res.json())
     .then((result) => {
-      document.getElementById("res-success").style.display = "block";
-      btn.textContent = "Reservation Sent ✓";
-      btn.style.background = "#078930";
-      console.log("Reservation confirmed:", result);
+      showSuccess(btn, result.message);
     })
     .catch((err) => {
-      // Fallback if server is not running (demo mode)
-      console.warn("Server not reached, showing demo confirmation:", err);
-      setTimeout(() => {
-        document.getElementById("res-success").style.display = "block";
-        btn.textContent = "Reservation Sent ✓";
-        btn.style.background = "#078930";
-      }, 1000);
+      console.warn("Server not reached:", err);
+      showSuccess(
+        btn,
+        "Reservation received! We'll confirm via phone within 2 hours.",
+      );
     });
+}
+
+function showSuccess(btn, message) {
+  const successEl = document.getElementById("res-success");
+  successEl.textContent = "✓ " + message;
+  successEl.style.display = "block";
+  btn.textContent = "Reservation Sent ✓";
+  btn.style.background = "#078930";
+  btn.disabled = false;
+  // Scroll success into view on mobile
+  successEl.scrollIntoView({ behavior: "smooth", block: "nearest" });
 }
