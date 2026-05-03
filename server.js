@@ -64,12 +64,10 @@ app.post("/reserve", async (req, res) => {
     });
   } catch (err) {
     console.error("❌ Save error:", err);
-    res
-      .status(500)
-      .json({
-        success: false,
-        message: "Something went wrong. Please try again.",
-      });
+    res.status(500).json({
+      success: false,
+      message: "Something went wrong. Please try again.",
+    });
   }
 });
 
@@ -79,9 +77,10 @@ app.get("/reservations", async (req, res) => {
     const reservations = await Reservation.find().sort({ createdAt: -1 });
     res.json({ success: true, total: reservations.length, reservations });
   } catch (err) {
-    res
-      .status(500)
-      .json({ success: false, message: "Could not fetch reservations." });
+    res.status(500).json({
+      success: false,
+      message: "Could not fetch reservations.",
+    });
   }
 });
 
@@ -91,10 +90,16 @@ app.delete("/reservations/:id", async (req, res) => {
     await Reservation.findByIdAndDelete(req.params.id);
     res.json({ success: true, message: "Reservation deleted." });
   } catch (err) {
-    res
-      .status(500)
-      .json({ success: false, message: "Could not delete reservation." });
+    res.status(500).json({
+      success: false,
+      message: "Could not delete reservation.",
+    });
   }
+});
+
+// ── Serve reservations page ────────────────────────
+app.get("/reservations.html", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "reservations.html"));
 });
 
 // ── Catch-all ──────────────────────────────────────
@@ -102,6 +107,7 @@ app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "index.html"));
 });
 
+// ── Start ──────────────────────────────────────────
 app.listen(PORT, () => {
   console.log(`🍽  Sishu Restaurant running → http://localhost:${PORT}`);
 });
