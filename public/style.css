@@ -738,3 +738,25 @@ footer {
   .gallery-overlay      { background:rgba(42,26,10,0.15); }
   .gallery-plus         { color:rgba(255,255,255,0.4); }
 }
+
+
+.nav-reservations-link {
+  font-size: 12px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.6);
+  border: 1px solid rgba(255,255,255,0.15);
+  padding: 9px 16px;
+  transition: all 0.2s;
+  display: none;
+  white-space: nowrap;
+}
+
+.nav-reservations-link:hover {
+  color: var(--gold-light);
+  border-color: var(--gold);
+}
+
+@media (min-width: 1024px) {
+  .nav-reservations-link { display: inline-block; }
+}
