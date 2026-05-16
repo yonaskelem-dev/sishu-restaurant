@@ -1,7 +1,7 @@
-/* =============================================
+/* 
    SISHU RESTAURANT — style.css
    Mobile-first responsive: 320px → 640px → 1024px → 1280px
-============================================= */
+*/
 
 :root {
   --gold:       #C8922A;
@@ -20,7 +20,7 @@
   --nav-h:      64px;
 }
 
-/* ── RESET ──────────────────────────────────────── */
+/* ── RESET  */
 *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
 html { scroll-behavior:smooth; -webkit-text-size-adjust:100%; }
 body {
@@ -34,9 +34,9 @@ img { max-width:100%; display:block; }
 a   { text-decoration:none; }
 button { cursor:pointer; font-family:inherit; }
 
-/* ══════════════════════════════════════════════════
+/* 
    NAVBAR — mobile first
-══════════════════════════════════════════════════ */
+ */
 nav {
   position:fixed; top:0; left:0; right:0;
   z-index:200;
@@ -112,9 +112,9 @@ nav {
 .mobile-menu a:last-child { border-bottom:none; }
 .mobile-menu a:hover { color:var(--gold-light); background:rgba(200,146,42,0.06); }
 
-/* ══════════════════════════════════════════════════
+/* 
    HERO
-══════════════════════════════════════════════════ */
+ */
 #home {
   min-height:100svh;
   position:relative;
@@ -210,9 +210,9 @@ nav {
   background:linear-gradient(to bottom, rgba(200,146,42,0.6), transparent);
 }
 
-/* ══════════════════════════════════════════════════
+/* 
    SHARED UTILITIES
-══════════════════════════════════════════════════ */
+ */
 .section      { padding:72px 20px; max-width:1280px; margin:0 auto; }
 .section-full { padding:72px 0; }
 
@@ -236,9 +236,9 @@ nav {
 .eth-divider span:nth-child(2){ background:#FCDD09; }
 .eth-divider span:nth-child(3){ background:var(--red-eth); }
 
-/* ══════════════════════════════════════════════════
+/* 
    ABOUT
-══════════════════════════════════════════════════ */
+ */
 #about { background:var(--off-white); }
 
 .about-grid {
@@ -292,9 +292,9 @@ nav {
   max-width:130px; text-align:center;
 }
 
-/* ══════════════════════════════════════════════════
+/*
    MENU
-══════════════════════════════════════════════════ */
+*/
 #menu { background:var(--earth); padding:72px 0; }
 .menu-inner { max-width:1280px; margin:0 auto; padding:0 20px; }
 .menu-eyebrow { color:var(--gold); }
@@ -367,9 +367,9 @@ nav {
 .menu-panel        { display:none; }
 .menu-panel.active { display:block; }
 
-/* ══════════════════════════════════════════════════
+/* 
    GALLERY
-══════════════════════════════════════════════════ */
+ */
 #gallery { background:var(--cream); padding:72px 0; }
 .gallery-inner { max-width:1280px; margin:0 auto; padding:0 20px; }
 
@@ -405,9 +405,9 @@ nav {
 }
 .gallery-item:hover .gallery-plus { color:rgba(255,255,255,0.9); }
 
-/* ══════════════════════════════════════════════════
+/* 
    REVIEWS
-══════════════════════════════════════════════════ */
+ */
 #reviews { background:var(--off-white); }
 .reviews-header { text-align:center; margin-bottom:40px; }
 
@@ -451,9 +451,9 @@ nav {
   font-size:60px; color:rgba(200,146,42,0.07); line-height:1; pointer-events:none;
 }
 
-/* ══════════════════════════════════════════════════
+/* 
    RESERVATION
-══════════════════════════════════════════════════ */
+ */
 #reservation { background:var(--earth); padding:72px 0; }
 
 .res-inner {
@@ -535,9 +535,9 @@ select.form-input option { background:var(--earth); color:#fff; }
   color:#6EE89A; font-size:14px; line-height:1.6;
 }
 
-/* ══════════════════════════════════════════════════
+/* 
    CONTACT
-══════════════════════════════════════════════════ */
+ */
 #contact { background:var(--cream); }
 
 .contact-grid {
@@ -560,9 +560,9 @@ select.form-input option { background:var(--earth); color:#fff; }
 .contact-col-body { font-size:15px; line-height:1.85; color:var(--text-mid); font-weight:300; }
 .contact-col-body strong { font-weight:500; color:var(--text-dark); display:block; margin-bottom:5px; }
 
-/* ══════════════════════════════════════════════════
+/* 
    FOOTER
-══════════════════════════════════════════════════ */
+ */
 footer {
   background:var(--earth);
   padding:40px 20px;
@@ -588,9 +588,9 @@ footer {
   width:100%; text-align:center; line-height:1.7;
 }
 
-/* ══════════════════════════════════════════════════
+/* 
    ANIMATIONS
-══════════════════════════════════════════════════ */
+ */
 @keyframes fadeUp {
   from { opacity:0; transform:translateY(28px); }
   to   { opacity:1; transform:none; }
@@ -606,9 +606,9 @@ footer {
 }
 .reveal.visible { opacity:1; transform:none; }
 
-/* ══════════════════════════════════════════════════
+/* 
    TABLET  ≥ 640px
-══════════════════════════════════════════════════ */
+ */
 @media (min-width:640px) {
 
   :root { --nav-h:68px; }
@@ -662,9 +662,9 @@ footer {
   .footer-copy  { text-align:center; }
 }
 
-/* ══════════════════════════════════════════════════
+/* 
    DESKTOP  ≥ 1024px
-══════════════════════════════════════════════════ */
+ */
 @media (min-width:1024px) {
 
   :root { --nav-h:72px; }
@@ -717,9 +717,9 @@ footer {
   .footer-logo { font-size:28px; }
 }
 
-/* ══════════════════════════════════════════════════
+/* 
    LARGE DESKTOP  ≥ 1280px
-══════════════════════════════════════════════════ */
+ */
 @media (min-width:1280px) {
   nav { padding:0 80px; }
   .logo { font-size:24px; }
@@ -727,9 +727,9 @@ footer {
   .nav-links a { font-size:13px; }
 }
 
-/* ══════════════════════════════════════════════════
+/* 
    TOUCH DEVICES — disable hover transforms
-══════════════════════════════════════════════════ */
+ */
 @media (hover:none) {
   .menu-card:hover      { transform:none; }
   .review-card:hover    { transform:none; box-shadow:none; }
@@ -739,7 +739,9 @@ footer {
   .gallery-plus         { color:rgba(255,255,255,0.4); }
 }
 
-
+/* 
+   NAV RESERVATIONS LINK
+ */
 .nav-reservations-link {
   font-size: 12px;
   letter-spacing: 1.5px;

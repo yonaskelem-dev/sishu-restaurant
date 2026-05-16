@@ -1,16 +1,15 @@
-/* =============================================
+/* 
    SISHU RESTAURANT — script.js
-============================================= */
+*/
 
-// ── NAV scroll effect ──────────────────────────────
+// ── NAV scroll effect 
 window.addEventListener("scroll", () => {
   const nav = document.getElementById("navbar");
-  // Keep dark earth tone — just increase opacity on scroll
   nav.style.background =
     window.scrollY > 60 ? "rgba(42,26,10,0.99)" : "rgba(42,26,10,0.96)";
 });
 
-// ── Mobile menu ────────────────────────────────────
+// ── Mobile menu
 function toggleMobile() {
   const menu = document.getElementById("mobileMenu");
   const ham = document.getElementById("hamburger");
@@ -36,7 +35,7 @@ document.addEventListener("click", (e) => {
   }
 });
 
-// ── Menu tabs ──────────────────────────────────────
+// ── Menu tabs
 function showTab(id, btn) {
   document
     .querySelectorAll(".menu-panel")
@@ -48,7 +47,7 @@ function showTab(id, btn) {
   btn.classList.add("active");
 }
 
-// ── Scroll reveal ──────────────────────────────────
+// ── Scroll reveal 
 const observer = new IntersectionObserver(
   (entries) => {
     entries.forEach((entry, i) => {
@@ -63,12 +62,12 @@ const observer = new IntersectionObserver(
 
 document.querySelectorAll(".reveal").forEach((el) => observer.observe(el));
 
-// ── Set min date for reservation ───────────────────
+// ── Set min date for reservation 
 const today = new Date().toISOString().split("T")[0];
 const dateInput = document.getElementById("res-date");
 if (dateInput) dateInput.setAttribute("min", today);
 
-// ── Reservation form submission ────────────────────
+// ── Reservation form submission 
 function submitReservation(e) {
   e.preventDefault();
 
@@ -79,6 +78,7 @@ function submitReservation(e) {
   const data = {
     name: document.getElementById("res-name").value,
     phone: document.getElementById("res-phone").value,
+    email: document.getElementById("res-email").value, // ← new field
     date: document.getElementById("res-date").value,
     time: document.getElementById("res-time").value,
     guests: document.getElementById("res-guests").value,
@@ -111,6 +111,5 @@ function showSuccess(btn, message) {
   btn.textContent = "Reservation Sent ✓";
   btn.style.background = "#078930";
   btn.disabled = false;
-  // Scroll success into view on mobile
   successEl.scrollIntoView({ behavior: "smooth", block: "nearest" });
 }

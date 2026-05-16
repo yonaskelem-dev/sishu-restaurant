@@ -1,0 +1,1320 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Reservations — Sishu Restaurant</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --gold: #c8922a;
+        --gold-light: #e8b558;
+        --gold-pale: #f5e6c8;
+        --earth: #2a1a0a;
+        --earth-mid: #4a2e14;
+        --earth-warm: #6b4226;
+        --off-white: #faf6ee;
+        --cream: #f0e8d4;
+        --green-eth: #078930;
+        --red-eth: #da121a;
+        --text-dark: #1c1008;
+        --text-mid: #5c3d20;
+        --text-muted: #9a7a58;
+      }
+
+      *,
+      *::before,
+      *::after {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        font-family: "DM Sans", sans-serif;
+        background: var(--earth);
+        color: var(--off-white);
+        min-height: 100vh;
+        overflow-x: hidden;
+      }
+
+      /* ── HEADER  */
+      header {
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        background: rgba(22, 10, 2, 0.98);
+        backdrop-filter: blur(12px);
+        border-bottom: 1px solid rgba(200, 146, 42, 0.2);
+        padding: 0 32px;
+        height: 68px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+      }
+
+      .header-left {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+      }
+
+      .back-btn {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        color: rgba(255, 255, 255, 0.45);
+        font-size: 11px;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+        text-decoration: none;
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        padding: 7px 14px;
+        transition:
+          color 0.2s,
+          border-color 0.2s;
+        white-space: nowrap;
+      }
+      .back-btn:hover {
+        color: var(--gold-light);
+        border-color: var(--gold);
+      }
+      .back-btn svg {
+        width: 14px;
+        height: 14px;
+        fill: none;
+        stroke: currentColor;
+        stroke-width: 2;
+      }
+
+      .header-title {
+        font-family: "Cormorant Garamond", serif;
+        font-size: 22px;
+        font-weight: 600;
+        color: var(--gold-light);
+        letter-spacing: 1px;
+      }
+      .header-title span {
+        color: rgba(255, 255, 255, 0.4);
+        font-weight: 400;
+        font-style: italic;
+        font-size: 16px;
+        margin-left: 8px;
+      }
+
+      .header-right {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      /* live count badge */
+      .live-badge {
+        display: flex;
+        align-items: center;
+        gap: 7px;
+        background: rgba(200, 146, 42, 0.1);
+        border: 1px solid rgba(200, 146, 42, 0.25);
+        padding: 6px 14px;
+        font-size: 12px;
+        color: var(--gold-light);
+        white-space: nowrap;
+      }
+      .live-dot {
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: var(--green-eth);
+        animation: pulse 2s ease infinite;
+      }
+      @keyframes pulse {
+        0%,
+        100% {
+          opacity: 1;
+          transform: scale(1);
+        }
+        50% {
+          opacity: 0.5;
+          transform: scale(0.8);
+        }
+      }
+
+      /* refresh btn */
+      .refresh-btn {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        background: var(--gold);
+        color: #fff;
+        border: none;
+        padding: 8px 18px;
+        font-family: "DM Sans", sans-serif;
+        font-size: 11px;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+        font-weight: 500;
+        cursor: pointer;
+        transition: background 0.2s;
+        white-space: nowrap;
+      }
+      .refresh-btn:hover {
+        background: var(--gold-light);
+      }
+      .refresh-btn svg {
+        width: 13px;
+        height: 13px;
+        fill: none;
+        stroke: currentColor;
+        stroke-width: 2.2;
+      }
+      .refresh-btn.spinning svg {
+        animation: spin 0.7s linear infinite;
+      }
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      /* ── MAIN LAYOUT */
+      main {
+        max-width: 1280px;
+        margin: 0 auto;
+        padding: 40px 32px 80px;
+      }
+
+      /* ── STATS ROW  */
+      .stats-row {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+        gap: 2px;
+        margin-bottom: 36px;
+      }
+
+      .stat-card {
+        background: rgba(255, 255, 255, 0.04);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        padding: 22px 24px;
+        animation: fadeUp 0.5s ease both;
+      }
+      .stat-card:nth-child(1) {
+        animation-delay: 0.05s;
+      }
+      .stat-card:nth-child(2) {
+        animation-delay: 0.1s;
+      }
+      .stat-card:nth-child(3) {
+        animation-delay: 0.15s;
+      }
+      .stat-card:nth-child(4) {
+        animation-delay: 0.2s;
+      }
+
+      .stat-card-label {
+        font-size: 9px;
+        letter-spacing: 2.5px;
+        text-transform: uppercase;
+        color: var(--text-muted);
+        margin-bottom: 10px;
+      }
+      .stat-card-value {
+        font-family: "Cormorant Garamond", serif;
+        font-size: 38px;
+        font-weight: 600;
+        color: var(--gold-light);
+        line-height: 1;
+      }
+      .stat-card-sub {
+        font-size: 11px;
+        color: rgba(255, 255, 255, 0.25);
+        margin-top: 6px;
+      }
+
+      /* ── TOOLBAR  */
+      .toolbar {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 20px;
+        flex-wrap: wrap;
+      }
+
+      .search-wrap {
+        position: relative;
+        flex: 1;
+        min-width: 200px;
+      }
+      .search-wrap svg {
+        position: absolute;
+        left: 13px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 15px;
+        height: 15px;
+        fill: none;
+        stroke: rgba(255, 255, 255, 0.25);
+        stroke-width: 2;
+        pointer-events: none;
+      }
+      .search-input {
+        width: 100%;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        padding: 11px 14px 11px 38px;
+        font-family: "DM Sans", sans-serif;
+        font-size: 14px;
+        color: #fff;
+        outline: none;
+        transition: border-color 0.2s;
+      }
+      .search-input::placeholder {
+        color: rgba(255, 255, 255, 0.22);
+      }
+      .search-input:focus {
+        border-color: rgba(200, 146, 42, 0.4);
+      }
+
+      .filter-select {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        padding: 11px 36px 11px 14px;
+        font-family: "DM Sans", sans-serif;
+        font-size: 13px;
+        color: rgba(255, 255, 255, 0.6);
+        outline: none;
+        cursor: pointer;
+        appearance: none;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23C8922A' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 12px center;
+        transition: border-color 0.2s;
+        white-space: nowrap;
+      }
+      .filter-select:focus {
+        border-color: rgba(200, 146, 42, 0.4);
+      }
+      .filter-select option {
+        background: var(--earth);
+      }
+
+      .result-count {
+        font-size: 12px;
+        color: rgba(255, 255, 255, 0.25);
+        white-space: nowrap;
+        padding: 0 4px;
+      }
+
+      /* ── TABLE ───────────────────────────────────── */
+      .table-wrap {
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        overflow: hidden;
+        animation: fadeUp 0.5s 0.25s ease both;
+      }
+
+      /* Desktop table */
+      .res-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 14px;
+      }
+
+      .res-table thead tr {
+        background: rgba(200, 146, 42, 0.08);
+        border-bottom: 1px solid rgba(200, 146, 42, 0.2);
+      }
+
+      .res-table th {
+        padding: 13px 18px;
+        font-size: 9px;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        color: var(--gold);
+        font-weight: 500;
+        text-align: left;
+        white-space: nowrap;
+      }
+      .res-table th.sortable {
+        cursor: pointer;
+        user-select: none;
+      }
+      .res-table th.sortable:hover {
+        color: var(--gold-light);
+      }
+      .res-table th .sort-icon {
+        opacity: 0.4;
+        margin-left: 4px;
+        font-size: 10px;
+      }
+      .res-table th.sorted .sort-icon {
+        opacity: 1;
+        color: var(--gold-light);
+      }
+
+      .res-table tbody tr {
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        transition: background 0.2s;
+        animation: fadeUp 0.4s ease both;
+      }
+      .res-table tbody tr:last-child {
+        border-bottom: none;
+      }
+      .res-table tbody tr:hover {
+        background: rgba(255, 255, 255, 0.04);
+      }
+
+      .res-table td {
+        padding: 15px 18px;
+        color: rgba(255, 255, 255, 0.75);
+        vertical-align: middle;
+      }
+
+      .td-name {
+        font-family: "Cormorant Garamond", serif;
+        font-size: 17px;
+        font-weight: 600;
+        color: #fff;
+      }
+      .td-phone {
+        font-size: 13px;
+        color: rgba(255, 255, 255, 0.45);
+        margin-top: 3px;
+      }
+      .td-email-tag {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        font-size: 11px;
+        color: rgba(200, 146, 42, 0.8);
+        border: 1px solid rgba(200, 146, 42, 0.2);
+        padding: 2px 8px;
+        margin-top: 4px;
+      }
+
+      .td-date-main {
+        font-weight: 500;
+        color: #fff;
+      }
+      .td-date-day {
+        font-size: 11px;
+        color: rgba(255, 255, 255, 0.35);
+        margin-top: 2px;
+      }
+
+      .td-guests {
+        font-family: "Cormorant Garamond", serif;
+        font-size: 22px;
+        font-weight: 600;
+        color: var(--gold-light);
+      }
+
+      .occasion-tag {
+        display: inline-block;
+        font-size: 9px;
+        letter-spacing: 1.2px;
+        text-transform: uppercase;
+        color: var(--gold);
+        border: 1px solid rgba(200, 146, 42, 0.3);
+        padding: 3px 9px;
+      }
+      .occasion-tag.none {
+        color: rgba(255, 255, 255, 0.2);
+        border-color: rgba(255, 255, 255, 0.08);
+      }
+
+      .notes-cell {
+        font-size: 13px;
+        color: rgba(255, 255, 255, 0.35);
+        max-width: 200px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .notes-cell.empty {
+        font-style: italic;
+      }
+
+      .td-time {
+        font-size: 15px;
+        font-weight: 500;
+        color: #fff;
+      }
+
+      /* delete btn */
+      .delete-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 32px;
+        height: 32px;
+        background: rgba(218, 18, 26, 0.08);
+        border: 1px solid rgba(218, 18, 26, 0.2);
+        color: rgba(218, 18, 26, 0.5);
+        cursor: pointer;
+        transition:
+          background 0.2s,
+          color 0.2s,
+          border-color 0.2s;
+      }
+      .delete-btn:hover {
+        background: rgba(218, 18, 26, 0.18);
+        color: #ff6b6b;
+        border-color: rgba(218, 18, 26, 0.5);
+      }
+      .delete-btn svg {
+        width: 14px;
+        height: 14px;
+        fill: none;
+        stroke: currentColor;
+        stroke-width: 2;
+      }
+
+      /* ── EMPTY STATE  */
+      .empty-state {
+        text-align: center;
+        padding: 80px 20px;
+        display: none;
+      }
+      .empty-icon {
+        font-size: 48px;
+        margin-bottom: 16px;
+        opacity: 0.3;
+      }
+      .empty-title {
+        font-family: "Cormorant Garamond", serif;
+        font-size: 26px;
+        font-style: italic;
+        color: rgba(255, 255, 255, 0.3);
+        margin-bottom: 8px;
+      }
+      .empty-sub {
+        font-size: 13px;
+        color: rgba(255, 255, 255, 0.18);
+      }
+
+      /* ── LOADING STATE  */
+      .loading-state {
+        text-align: center;
+        padding: 80px 20px;
+      }
+      .loader {
+        width: 36px;
+        height: 36px;
+        margin: 0 auto 20px;
+        border: 2px solid rgba(200, 146, 42, 0.15);
+        border-top-color: var(--gold);
+        border-radius: 50%;
+        animation: spin 0.8s linear infinite;
+      }
+      .loading-text {
+        font-size: 13px;
+        color: rgba(255, 255, 255, 0.3);
+        letter-spacing: 1px;
+      }
+
+      /* ── ERROR STATE  */
+      .error-state {
+        text-align: center;
+        padding: 60px 20px;
+        display: none;
+      }
+      .error-icon {
+        font-size: 40px;
+        margin-bottom: 14px;
+        opacity: 0.5;
+      }
+      .error-msg {
+        font-size: 14px;
+        color: rgba(255, 100, 100, 0.7);
+        margin-bottom: 20px;
+      }
+      .retry-btn {
+        background: none;
+        border: 1px solid rgba(200, 146, 42, 0.3);
+        color: var(--gold);
+        padding: 10px 24px;
+        font-family: "DM Sans", sans-serif;
+        font-size: 12px;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+        cursor: pointer;
+        transition:
+          border-color 0.2s,
+          color 0.2s;
+      }
+      .retry-btn:hover {
+        border-color: var(--gold);
+        color: var(--gold-light);
+      }
+
+      /* ── TOAST  */
+      #toast {
+        position: fixed;
+        bottom: 28px;
+        right: 28px;
+        z-index: 999;
+        padding: 13px 20px;
+        font-size: 13px;
+        font-weight: 500;
+        border-left: 3px solid var(--green-eth);
+        background: rgba(22, 10, 2, 0.97);
+        color: #6ee89a;
+        transform: translateY(20px);
+        opacity: 0;
+        transition:
+          transform 0.3s,
+          opacity 0.3s;
+        pointer-events: none;
+        max-width: 320px;
+      }
+      #toast.error {
+        border-left-color: var(--red-eth);
+        color: #ff8888;
+      }
+      #toast.show {
+        transform: translateY(0);
+        opacity: 1;
+      }
+
+      /* ── MODAL  */
+      .modal-overlay {
+        position: fixed;
+        inset: 0;
+        z-index: 500;
+        background: rgba(10, 5, 2, 0.85);
+        backdrop-filter: blur(6px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.25s;
+      }
+      .modal-overlay.open {
+        opacity: 1;
+        pointer-events: all;
+      }
+
+      .modal {
+        background: var(--earth-mid);
+        border: 1px solid rgba(200, 146, 42, 0.2);
+        padding: 36px;
+        max-width: 400px;
+        width: 100%;
+        transform: scale(0.95);
+        transition: transform 0.25s;
+      }
+      .modal-overlay.open .modal {
+        transform: scale(1);
+      }
+
+      .modal-title {
+        font-family: "Cormorant Garamond", serif;
+        font-size: 22px;
+        color: #fff;
+        margin-bottom: 10px;
+      }
+      .modal-body {
+        font-size: 14px;
+        color: rgba(255, 255, 255, 0.5);
+        line-height: 1.7;
+        margin-bottom: 28px;
+      }
+      .modal-name {
+        color: var(--gold-light);
+        font-style: italic;
+      }
+
+      .modal-actions {
+        display: flex;
+        gap: 12px;
+        justify-content: flex-end;
+      }
+
+      .modal-cancel {
+        background: none;
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        color: rgba(255, 255, 255, 0.5);
+        padding: 10px 22px;
+        font-family: "DM Sans", sans-serif;
+        font-size: 12px;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        cursor: pointer;
+        transition:
+          border-color 0.2s,
+          color 0.2s;
+      }
+      .modal-cancel:hover {
+        border-color: rgba(255, 255, 255, 0.3);
+        color: #fff;
+      }
+
+      .modal-confirm {
+        background: var(--red-eth);
+        border: none;
+        color: #fff;
+        padding: 10px 22px;
+        font-family: "DM Sans", sans-serif;
+        font-size: 12px;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        cursor: pointer;
+        transition: background 0.2s;
+      }
+      .modal-confirm:hover {
+        background: #ff2a34;
+      }
+
+      /* ── MOBILE CARDS  */
+      .card-list {
+        display: none;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .res-card {
+        background: rgba(255, 255, 255, 0.04);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        padding: 20px;
+        animation: fadeUp 0.4s ease both;
+      }
+
+      .res-card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 14px;
+      }
+      .res-card-name {
+        font-family: "Cormorant Garamond", serif;
+        font-size: 20px;
+        font-weight: 600;
+        color: #fff;
+      }
+      .res-card-phone {
+        font-size: 12px;
+        color: rgba(255, 255, 255, 0.35);
+        margin-top: 2px;
+      }
+
+      .res-card-body {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+        margin-bottom: 14px;
+      }
+      .res-card-item-label {
+        font-size: 9px;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+        color: var(--text-muted);
+        margin-bottom: 3px;
+      }
+      .res-card-item-value {
+        font-size: 14px;
+        color: rgba(255, 255, 255, 0.8);
+      }
+
+      .res-card-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-top: 14px;
+        border-top: 1px solid rgba(255, 255, 255, 0.07);
+      }
+
+      /* ── ETH STRIPE  */
+      .eth-stripe {
+        display: flex;
+        height: 3px;
+        width: 100%;
+        margin-bottom: 36px;
+      }
+      .eth-stripe span {
+        flex: 1;
+      }
+      .eth-stripe span:nth-child(1) {
+        background: var(--green-eth);
+      }
+      .eth-stripe span:nth-child(2) {
+        background: #fcdd09;
+      }
+      .eth-stripe span:nth-child(3) {
+        background: var(--red-eth);
+      }
+
+      /* ── ANIMATIONS  */
+      @keyframes fadeUp {
+        from {
+          opacity: 0;
+          transform: translateY(14px);
+        }
+        to {
+          opacity: 1;
+          transform: none;
+        }
+      }
+
+      /* ── RESPONSIVE  */
+      @media (max-width: 900px) {
+        main {
+          padding: 28px 20px 60px;
+        }
+        header {
+          padding: 0 20px;
+        }
+        .res-table {
+          display: none;
+        }
+        .card-list {
+          display: flex;
+        }
+        .table-wrap {
+          border: none;
+          background: none;
+          overflow: visible;
+        }
+      }
+
+      @media (max-width: 560px) {
+        .stats-row {
+          grid-template-columns: 1fr 1fr;
+        }
+        .header-title span {
+          display: none;
+        }
+        .live-badge {
+          display: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- HEADER -->
+    <header>
+      <div class="header-left">
+        <a href="/" class="back-btn">
+          <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6" /></svg>
+          Back
+        </a>
+        <div class="header-title">
+          Reservations
+          <span>Admin Dashboard</span>
+        </div>
+      </div>
+      <div class="header-right">
+        <div class="live-badge">
+          <div class="live-dot"></div>
+          <span id="liveCount">— reservations</span>
+        </div>
+        <button
+          class="refresh-btn"
+          id="refreshBtn"
+          onclick="loadReservations()"
+        >
+          <svg viewBox="0 0 24 24" id="refreshIcon">
+            <polyline points="23 4 23 10 17 10" />
+            <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10" />
+          </svg>
+          Refresh
+        </button>
+      </div>
+    </header>
+
+    <main>
+      <div class="eth-stripe"><span></span><span></span><span></span></div>
+
+      <!-- STATS -->
+      <div class="stats-row" id="statsRow">
+        <div class="stat-card">
+          <div class="stat-card-label">Total Reservations</div>
+          <div class="stat-card-value" id="statTotal">—</div>
+          <div class="stat-card-sub">all time</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card-label">Today</div>
+          <div class="stat-card-value" id="statToday">—</div>
+          <div class="stat-card-sub" id="statTodayDate">—</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card-label">Total Guests</div>
+          <div class="stat-card-value" id="statGuests">—</div>
+          <div class="stat-card-sub">covers booked</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card-label">This Week</div>
+          <div class="stat-card-value" id="statWeek">—</div>
+          <div class="stat-card-sub">next 7 days</div>
+        </div>
+      </div>
+
+      <!-- TOOLBAR -->
+      <div class="toolbar">
+        <div class="search-wrap">
+          <svg viewBox="0 0 24 24">
+            <circle cx="11" cy="11" r="8" />
+            <line x1="21" y1="21" x2="16.65" y2="16.65" />
+          </svg>
+          <input
+            class="search-input"
+            type="text"
+            placeholder="Search by name, phone, email…"
+            id="searchInput"
+            oninput="filterTable()"
+          />
+        </div>
+        <select class="filter-select" id="sortSelect" onchange="filterTable()">
+          <option value="newest">Newest First</option>
+          <option value="oldest">Oldest First</option>
+          <option value="date-asc">Reservation Date ↑</option>
+          <option value="date-desc">Reservation Date ↓</option>
+          <option value="guests-desc">Most Guests</option>
+        </select>
+        <select
+          class="filter-select"
+          id="occasionFilter"
+          onchange="filterTable()"
+        >
+          <option value="">All Occasions</option>
+          <option value="birthday">Birthday</option>
+          <option value="anniversary">Anniversary</option>
+          <option value="business">Business</option>
+          <option value="other">Other</option>
+        </select>
+        <span class="result-count" id="resultCount"></span>
+      </div>
+
+      <!-- TABLE WRAPPER -->
+      <div class="table-wrap" id="tableWrap">
+        <!-- Loading -->
+        <div class="loading-state" id="loadingState">
+          <div class="loader"></div>
+          <div class="loading-text">Loading reservations…</div>
+        </div>
+
+        <!-- Error -->
+        <div class="error-state" id="errorState">
+          <div class="error-icon">⚠</div>
+          <div class="error-msg" id="errorMsg">
+            Could not load reservations.
+          </div>
+          <button class="retry-btn" onclick="loadReservations()">Retry</button>
+        </div>
+
+        <!-- Desktop Table -->
+        <table class="res-table" id="resTable">
+          <thead>
+            <tr>
+              <th>Guest</th>
+              <th class="sortable" onclick="sortBy('date')" id="th-date">
+                Date <span class="sort-icon">↕</span>
+              </th>
+              <th>Time</th>
+              <th class="sortable" onclick="sortBy('guests')" id="th-guests">
+                Guests <span class="sort-icon">↕</span>
+              </th>
+              <th>Occasion</th>
+              <th>Notes</th>
+              <th>Booked On</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="tableBody"></tbody>
+        </table>
+
+        <!-- Mobile Cards -->
+        <div class="card-list" id="cardList"></div>
+
+        <!-- Empty -->
+        <div class="empty-state" id="emptyState">
+          <div class="empty-icon">🍽</div>
+          <div class="empty-title">No reservations found</div>
+          <div class="empty-sub">Try adjusting your search or filters</div>
+        </div>
+      </div>
+      <!-- /table-wrap -->
+    </main>
+
+    <!-- DELETE CONFIRM MODAL -->
+    <div class="modal-overlay" id="modalOverlay">
+      <div class="modal">
+        <div class="modal-title">Delete Reservation?</div>
+        <div class="modal-body">
+          You are about to permanently delete the reservation for
+          <span class="modal-name" id="modalName"></span>. This action cannot be
+          undone.
+        </div>
+        <div class="modal-actions">
+          <button class="modal-cancel" onclick="closeModal()">Cancel</button>
+          <button class="modal-confirm" id="modalConfirmBtn">Delete</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- TOAST -->
+    <div id="toast"></div>
+
+    <script>
+      let allReservations = [];
+      let pendingDeleteId = null;
+
+      // ── Load reservations 
+      async function loadReservations() {
+        showLoading(true);
+        hideError();
+
+        const btn = document.getElementById("refreshBtn");
+        const icon = document.getElementById("refreshIcon");
+        btn.classList.add("spinning");
+        icon.style.animationPlayState = "running";
+
+        try {
+          const res = await fetch("/reservations");
+          const data = await res.json();
+
+          if (!data.success) throw new Error(data.message);
+
+          allReservations = data.reservations || [];
+          updateStats(allReservations);
+          filterTable();
+          document.getElementById("liveCount").textContent =
+            `${allReservations.length} reservation${allReservations.length !== 1 ? "s" : ""}`;
+        } catch (err) {
+          showError(
+            err.message || "Server unreachable. Is the server running?",
+          );
+        } finally {
+          showLoading(false);
+          btn.classList.remove("spinning");
+        }
+      }
+
+      // ── Stats 
+      function updateStats(data) {
+        const todayStr = new Date().toISOString().split("T")[0];
+        const weekEnd = new Date();
+        weekEnd.setDate(weekEnd.getDate() + 7);
+
+        const todayCount = data.filter((r) => r.date === todayStr).length;
+        const weekCount = data.filter((r) => {
+          const d = new Date(r.date);
+          return d >= new Date(todayStr) && d <= weekEnd;
+        }).length;
+        const totalGuests = data.reduce((sum, r) => {
+          const g = parseInt(r.guests) || 0;
+          return sum + g;
+        }, 0);
+
+        document.getElementById("statTotal").textContent = data.length;
+        document.getElementById("statToday").textContent = todayCount;
+        document.getElementById("statTodayDate").textContent =
+          new Date().toLocaleDateString("en-US", {
+            month: "short",
+            day: "numeric",
+          });
+        document.getElementById("statGuests").textContent = totalGuests;
+        document.getElementById("statWeek").textContent = weekCount;
+      }
+
+      // ── Filter & sort 
+      function filterTable() {
+        const q = document
+          .getElementById("searchInput")
+          .value.toLowerCase()
+          .trim();
+        const sort = document.getElementById("sortSelect").value;
+        const occ = document.getElementById("occasionFilter").value;
+
+        let filtered = allReservations.filter((r) => {
+          const matchQ =
+            !q ||
+            r.name?.toLowerCase().includes(q) ||
+            r.phone?.toLowerCase().includes(q) ||
+            r.email?.toLowerCase().includes(q) ||
+            r.notes?.toLowerCase().includes(q);
+          const matchOcc = !occ || r.occasion === occ;
+          return matchQ && matchOcc;
+        });
+
+        // sort
+        filtered.sort((a, b) => {
+          if (sort === "newest")
+            return new Date(b.createdAt) - new Date(a.createdAt);
+          if (sort === "oldest")
+            return new Date(a.createdAt) - new Date(b.createdAt);
+          if (sort === "date-asc") return new Date(a.date) - new Date(b.date);
+          if (sort === "date-desc") return new Date(b.date) - new Date(a.date);
+          if (sort === "guests-desc")
+            return (parseInt(b.guests) || 0) - (parseInt(a.guests) || 0);
+          return 0;
+        });
+
+        renderTable(filtered);
+        renderCards(filtered);
+
+        const count = document.getElementById("resultCount");
+        count.textContent =
+          q || occ ?
+            `${filtered.length} of ${allReservations.length} shown`
+          : "";
+
+        // show/hide empty
+        const hasData = filtered.length > 0;
+        document.getElementById("emptyState").style.display =
+          hasData ? "none" : "block";
+        document.getElementById("resTable").style.display =
+          hasData ? "table" : "none";
+        document.getElementById("cardList").style.display =
+          hasData ? "flex" : "none";
+      }
+
+      // ── Render desktop table 
+      function renderTable(data) {
+        const tbody = document.getElementById("tableBody");
+        tbody.innerHTML = data
+          .map((r, i) => {
+            const resDate = formatDate(r.date);
+            const dayName = getDayName(r.date);
+            const bookedOn = formatDateTime(r.createdAt);
+
+            return `
+        <tr style="animation-delay:${i * 0.03}s">
+          <td>
+            <div class="td-name">${esc(r.name)}</div>
+            <div class="td-phone">${esc(r.phone)}</div>
+            ${r.email ? `<div class="td-email-tag">✉ ${esc(r.email)}</div>` : ""}
+          </td>
+          <td>
+            <div class="td-date-main">${resDate}</div>
+            <div class="td-date-day">${dayName}</div>
+          </td>
+          <td><div class="td-time">${esc(r.time)}</div></td>
+          <td><div class="td-guests">${esc(r.guests)}</div></td>
+          <td>${occasionBadge(r.occasion)}</td>
+          <td>
+            <div class="notes-cell ${!r.notes ? "empty" : ""}">
+              ${r.notes ? esc(r.notes) : "—"}
+            </div>
+          </td>
+          <td style="font-size:12px;color:rgba(255,255,255,0.3);">${bookedOn}</td>
+          <td>
+            <button class="delete-btn" onclick="confirmDelete('${r._id}', '${esc(r.name)}')" title="Delete">
+              <svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4h6v2"/></svg>
+            </button>
+          </td>
+        </tr>
+      `;
+          })
+          .join("");
+      }
+
+      // ── Render mobile cards 
+      function renderCards(data) {
+        const list = document.getElementById("cardList");
+        list.innerHTML = data
+          .map(
+            (r, i) => `
+      <div class="res-card" style="animation-delay:${i * 0.04}s">
+        <div class="res-card-header">
+          <div>
+            <div class="res-card-name">${esc(r.name)}</div>
+            <div class="res-card-phone">${esc(r.phone)}</div>
+          </div>
+          <button class="delete-btn" onclick="confirmDelete('${r._id}', '${esc(r.name)}')">
+            <svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4h6v2"/></svg>
+          </button>
+        </div>
+        <div class="res-card-body">
+          <div>
+            <div class="res-card-item-label">Date</div>
+            <div class="res-card-item-value">${formatDate(r.date)}</div>
+          </div>
+          <div>
+            <div class="res-card-item-label">Time</div>
+            <div class="res-card-item-value">${esc(r.time)}</div>
+          </div>
+          <div>
+            <div class="res-card-item-label">Guests</div>
+            <div class="res-card-item-value">${esc(r.guests)}</div>
+          </div>
+          <div>
+            <div class="res-card-item-label">Occasion</div>
+            <div class="res-card-item-value">${r.occasion || "—"}</div>
+          </div>
+        </div>
+        ${r.email ? `<div class="td-email-tag" style="margin-bottom:10px;">✉ ${esc(r.email)}</div>` : ""}
+        ${r.notes ? `<div style="font-size:13px;color:rgba(255,255,255,0.35);padding-bottom:4px;">${esc(r.notes)}</div>` : ""}
+        <div class="res-card-footer">
+          <span style="font-size:11px;color:rgba(255,255,255,0.2);">Booked ${formatDateTime(r.createdAt)}</span>
+          ${occasionBadge(r.occasion)}
+        </div>
+      </div>
+    `,
+          )
+          .join("");
+      }
+
+      // ── Delete flow 
+      function confirmDelete(id, name) {
+        pendingDeleteId = id;
+        document.getElementById("modalName").textContent = name;
+        document.getElementById("modalOverlay").classList.add("open");
+        document.getElementById("modalConfirmBtn").onclick = () =>
+          deleteReservation(id);
+      }
+
+      function closeModal() {
+        document.getElementById("modalOverlay").classList.remove("open");
+        pendingDeleteId = null;
+      }
+
+      async function deleteReservation(id) {
+        closeModal();
+        try {
+          const res = await fetch(`/reservations/${id}`, { method: "DELETE" });
+          const data = await res.json();
+          if (!data.success) throw new Error(data.message);
+
+          allReservations = allReservations.filter((r) => r._id !== id);
+          updateStats(allReservations);
+          filterTable();
+          document.getElementById("liveCount").textContent =
+            `${allReservations.length} reservation${allReservations.length !== 1 ? "s" : ""}`;
+          showToast("Reservation deleted successfully.", false);
+        } catch (err) {
+          showToast("Delete failed: " + err.message, true);
+        }
+      }
+
+      // Close modal on overlay click
+      document.getElementById("modalOverlay").addEventListener("click", (e) => {
+        if (e.target === document.getElementById("modalOverlay")) closeModal();
+      });
+
+      // ── Sort by column header 
+      let lastSort = null;
+      let sortAsc = false;
+
+      function sortBy(col) {
+        if (lastSort === col) {
+          sortAsc = !sortAsc;
+        } else {
+          lastSort = col;
+          sortAsc = true;
+        }
+
+        // update header icon
+        document
+          .querySelectorAll(".res-table th")
+          .forEach((th) => th.classList.remove("sorted"));
+        const th = document.getElementById(`th-${col}`);
+        if (th) {
+          th.classList.add("sorted");
+          th.querySelector(".sort-icon").textContent = sortAsc ? "↑" : "↓";
+        }
+
+        allReservations.sort((a, b) => {
+          let va, vb;
+          if (col === "date") {
+            va = new Date(a.date);
+            vb = new Date(b.date);
+          }
+          if (col === "guests") {
+            va = parseInt(a.guests) || 0;
+            vb = parseInt(b.guests) || 0;
+          }
+          return sortAsc ? va - vb : vb - va;
+        });
+
+        filterTable();
+      }
+
+      // ── Helpers 
+      function esc(str) {
+        if (!str) return "";
+        return String(str)
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;");
+      }
+
+      function formatDate(dateStr) {
+        if (!dateStr) return "—";
+        const d = new Date(dateStr + "T12:00:00");
+        return d.toLocaleDateString("en-US", {
+          month: "short",
+          day: "numeric",
+          year: "numeric",
+        });
+      }
+
+      function getDayName(dateStr) {
+        if (!dateStr) return "";
+        const d = new Date(dateStr + "T12:00:00");
+        return d.toLocaleDateString("en-US", { weekday: "long" });
+      }
+
+      function formatDateTime(isoStr) {
+        if (!isoStr) return "—";
+        const d = new Date(isoStr);
+        return (
+          d.toLocaleDateString("en-US", { month: "short", day: "numeric" }) +
+          " at " +
+          d.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit" })
+        );
+      }
+
+      function occasionBadge(occ) {
+        if (!occ) return `<span class="occasion-tag none">—</span>`;
+        const labels = {
+          birthday: "Birthday",
+          anniversary: "Anniversary",
+          business: "Business",
+          other: "Other",
+        };
+        return `<span class="occasion-tag">${labels[occ] || esc(occ)}</span>`;
+      }
+
+      function showLoading(show) {
+        document.getElementById("loadingState").style.display =
+          show ? "block" : "none";
+        if (show) {
+          document.getElementById("resTable").style.display = "none";
+          document.getElementById("cardList").style.display = "none";
+          document.getElementById("emptyState").style.display = "none";
+        }
+      }
+
+      function showError(msg) {
+        document.getElementById("errorMsg").textContent = msg;
+        document.getElementById("errorState").style.display = "block";
+        document.getElementById("loadingState").style.display = "none";
+      }
+
+      function hideError() {
+        document.getElementById("errorState").style.display = "none";
+      }
+
+      function showToast(msg, isError = false) {
+        const t = document.getElementById("toast");
+        t.textContent = msg;
+        t.className = isError ? "error show" : "show";
+        setTimeout(() => t.classList.remove("show"), 3500);
+      }
+
+      //  Init 
+      loadReservations();
+
+      // Auto-refresh every 60 seconds
+      setInterval(loadReservations, 60000);
+    </script>
+  </body>
+</html>
