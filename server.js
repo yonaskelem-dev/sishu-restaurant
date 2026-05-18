@@ -28,95 +28,52 @@ mongoose
   .catch((err) => console.error("MongoDB connection error:", err.message));
 
 const reservationSchema = new mongoose.Schema({
-  name: {
-    type: String,
-    required: true,
-    trim: true,
-  },
-
-  phone: {
-    type: String,
-    required: true,
-    trim: true,
-  },
-
-  email: {
-    type: String,
-    trim: true,
-    lowercase: true,
-    default: "",
-  },
-
-  date: {
-    type: String,
-    required: true,
-  },
-
-  time: {
-    type: String,
-    required: true,
-  },
-
-  guests: {
-    type: String,
-    required: true,
-  },
-
-  occasion: {
-    type: String,
-    default: "",
-    trim: true,
-  },
-
-  notes: {
-    type: String,
-    default: "",
-    trim: true,
-  },
-
-  createdAt: {
-    type: Date,
-    default: Date.now,
-  },
+  name: { type: String, required: true, trim: true },
+  phone: { type: String, required: true, trim: true },
+  email: { type: String, trim: true, lowercase: true, default: "" },
+  date: { type: String, required: true },
+  time: { type: String, required: true },
+  guests: { type: String, required: true },
+  occasion: { type: String, default: "", trim: true },
+  notes: { type: String, default: "", trim: true },
+  createdAt: { type: Date, default: Date.now },
 });
 
 const Reservation = mongoose.model("Reservation", reservationSchema);
 
+// ✅ FIXED TRANSPORTER (added secure option)
 const transporter = nodemailer.createTransport({
   service: "gmail",
-
   auth: {
     user: process.env.EMAIL_USER,
     pass: process.env.EMAIL_PASS,
   },
+  secure: false,
 });
 
 transporter.verify((err) => {
-  if (err) {
-    console.error("Email transporter error:", err.message);
-  } else {
-    console.log("Email service ready");
-  }
+  if (err) console.error("Email transporter error:", err.message);
+  else console.log("Email service ready");
 });
 
+// ✅ FIXED EMAIL FUNCTION (IMPORTANT FIXES HERE)
 async function sendReservationEmails(reservation) {
+  const { name, phone, email, date, time, guests, occasion, notes } =
+    reservation;
+
+  const formattedDate = new Date(date).toLocaleDateString("en-US", {
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+
   try {
-    const { name, phone, email, date, time, guests, occasion, notes } =
-      reservation;
-
-    const formattedDate = new Date(date).toLocaleDateString("en-US", {
-      weekday: "long",
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-    });
-
-    const adminMail = {
+    // Admin email
+    await transporter.sendMail({
       from: `"Sishu Restaurant" <${process.env.EMAIL_USER}>`,
       to: process.env.ADMIN_EMAIL,
-
       subject: `New Reservation - ${name}`,
-
       text: `
 New Reservation
 
@@ -133,17 +90,14 @@ Occasion: ${occasion || "Not specified"}
 Notes:
 ${notes || "None"}
       `,
-    };
+    });
 
-    const tasks = [transporter.sendMail(adminMail)];
-
-    if (email) {
-      const customerMail = {
+    // Customer email (ONLY if email exists)
+    if (email && email.trim() !== "") {
+      await transporter.sendMail({
         from: `"Sishu Restaurant" <${process.env.EMAIL_USER}>`,
         to: email,
-
         subject: "Your Reservation is Confirmed",
-
         text: `
 Hello ${name},
 
@@ -159,12 +113,8 @@ We look forward to serving you.
 Sishu Restaurant
 Addis Ababa, Ethiopia
         `,
-      };
-
-      tasks.push(transporter.sendMail(customerMail));
+      });
     }
-
-    await Promise.all(tasks);
 
     console.log("Emails sent successfully");
   } catch (err) {
@@ -173,9 +123,7 @@ Addis Ababa, Ethiopia
 }
 
 app.use(cors());
-
 app.use(express.json());
-
 app.use(express.static(path.join(__dirname, "public")));
 
 function adminAuth(req, res, next) {
@@ -187,7 +135,6 @@ function adminAuth(req, res, next) {
       message: "Access denied",
     });
   }
-
   next();
 }
 
@@ -220,13 +167,12 @@ app.post("/reserve", async (req, res) => {
 
     console.log("Reservation saved:", reservation._id);
 
-    sendReservationEmails(reservation);
+    // ✅ FIXED: WAIT for email sending
+    await sendReservationEmails(reservation);
 
     return res.json({
       success: true,
-      message:
-        `Thank you ${name}! Your reservation for ${guests} guest(s) on ${date} at ${time} has been received.` +
-        (email ? " Confirmation email sent." : ""),
+      message: `Thank you ${name}! Your reservation has been received.`,
     });
   } catch (err) {
     console.error("Reservation error:", err.message);
@@ -240,9 +186,7 @@ app.post("/reserve", async (req, res) => {
 
 app.get("/reservations", adminAuth, async (req, res) => {
   try {
-    const reservations = await Reservation.find().sort({
-      createdAt: -1,
-    });
+    const reservations = await Reservation.find().sort({ createdAt: -1 });
 
     return res.json({
       success: true,
@@ -250,8 +194,6 @@ app.get("/reservations", adminAuth, async (req, res) => {
       reservations,
     });
   } catch (err) {
-    console.error("Fetch reservations error:", err.message);
-
     return res.status(500).json({
       success: false,
       message: "Could not fetch reservations.",
@@ -268,17 +210,11 @@ app.delete("/reservations/:id", adminAuth, async (req, res) => {
       message: "Reservation deleted successfully.",
     });
   } catch (err) {
-    console.error("Delete error:", err.message);
-
     return res.status(500).json({
       success: false,
       message: "Could not delete reservation.",
     });
   }
-});
-
-app.get("/reservations.html", (req, res) => {
-  res.sendFile(path.join(__dirname, "public", "reservations.html"));
 });
 
 app.get("*", (req, res) => {
